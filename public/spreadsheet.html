@@ -1,0 +1,309 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/133a7fcf38.js" crossorigin="anonymous"></script>
+        <script src='https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2'></script>
+        <title>Type</title>
+        <style>
+            table{
+                max-height: 100vh !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="sidebar-1">
+                <div class="s1-initial">S</div>
+                <div class="s1-name">Shivansh</div>
+                <div class="s1-icon"><i class="fa fa-angle-down"></i></div>
+            </div>
+            <div class="sidebar-2">
+                <div class="s2-item overview">
+                    <div class="s2-icon"><i class="far fa-star"></i></div>
+                    <div class="s2-link">Overview</div>
+                </div>
+                <div class="s2-item log">
+                    <div class="s2-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="s2-link">Log Work</div>
+                </div>
+                <div class="s2-item spreadsheet">
+                    <div class="s2-icon"><i class="fas fa-table"></i></div>
+                    <div class="s2-link">Spreadsheet</div>
+                </div>
+                <div class="s2-item preferences">
+                    <div class="s2-icon"><i class="fas fa-cogs"></i></div>
+                    <div class="s2-link">Preferences</div>
+                </div>
+            </div>  
+        </div>
+        <div class="main">
+            <div class="heading">
+                <div class="icon"><i class="fa fa-table"></i></div>
+                <h1>Spreadsheet</h1>
+            </div>
+            <div class="sort_identifiers" style="display: flex;justify-content: space-evenly;width: max-content;color:rgba(255,255,255,0.9)">
+                <div class="accuracy_sort">
+                    <label>Accuracy: </label>
+                    <div class="checkbox" ><div class="check-focus"><svg viewBox="0 0 14 14" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div>
+                </div>
+                <div class="time_sort">
+                    <label>Time: </label>
+                    <div class="checkbox" ><div class="check-focus"><svg viewBox="0 0 14 14" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div>
+                </div>
+                <div class="active_sort">
+                    <label>Active Only: </label>
+                    <div class="checkbox active_only"><div class="check-focus"><svg viewBox="0 0 14 14" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div>
+                </div>
+                <div class="subject_filter">
+                    <label>Subject: </label>
+                    <select>
+                        <option>Select</option>
+                        <option>Physics</option>
+                        <option>Maths</option>
+                        <option>Organic</option>
+                        <option>Inorganic</option>
+                        <option>Physical</option>
+                    </select>
+                </div>
+                <div class="sort_order">
+                    <label>Sort Order: </label>
+                    <select>
+                        <option>Ascending</option>
+                        <option>Descending</option>
+                    </select>
+                </div>
+                <button type="submit" id="filter">Filter</button>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Topics</th>
+                        <th>Attempted</th>
+                        <th>Accuracy</th>
+                        <th>Avg Time</th>
+                        <th>CO1</th>
+                        <th>CO2</th>
+                        <th>DT1</th>
+                        <th>CA1</th>
+                        <th>CA2</th>
+                        <th>CA3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            let spreadsheet = [];
+            function toggleClick(thing){
+                thing.classList.toggle('active');
+            }
+
+            function updateActive(i){
+                let subject = i.parentElement.parentElement.classList[0];
+                let topic = Array.from(i.parentElement.parentElement.children)[1].textContent;
+                let status = i.classList.contains('active') ? 1 : 0;
+                fetch(`http://127.0.0.1:1800/fetch/update?subject=${subject}&topic=${topic}&status=${status}`)
+            }
+
+            Array.from(document.querySelectorAll('.sort_identifiers .checkbox')).forEach(i => {
+                i.addEventListener('click', () => {
+                    if(document.querySelector('.sort_identifiers .active:not(.active_only)') && document.querySelector('.sort_identifiers .active:not(.active_only)') == i){
+                        toggleClick(i);
+                    }else if(document.querySelector('.sort_identifiers .active:not(.active_only)')) { 
+                        document.querySelector('.sort_identifiers .active:not(.active_only)').classList.remove('active');
+                        toggleClick(i);
+                    }else{
+                        toggleClick(i);
+                    }
+                })
+            })
+
+            document.querySelector('#filter').addEventListener('click', () => {
+                let sort = document.querySelector('.sort_identifiers .active:not([active_only])') !== null ? document.querySelector('.sort_identifiers .active').parentElement.classList[0].replace('_sort', '') : '';
+                let order = document.querySelector('.sort_order select').value;
+                let subject = document.querySelector('.subject_filter select').value;
+                let active_only = document.querySelector('.active_only').classList.contains('active');
+                
+                let temp = spreadsheet;
+                order = order == 'Ascending' ? 1:-1;
+
+                if(subject !== 'Select'){
+                    temp = temp.filter(i => i.subject == subject)
+                }
+
+                if(active_only){
+                    temp = temp.filter(i => i.active == true)
+                }
+
+                if(sort == 'time'){
+                    temp.sort((a,b) => order*((a.time/(a.solved==0?1:a.total)) - (b.time/(b.solved==0?1:b.total))) );
+                }
+
+                if(sort == 'accuracy'){
+                    temp.sort((a,b) => order*((a.solved/(a.total==0?1:a.total) - (b.solved/(b.total==0?1:b.total)))))
+                }
+
+                fillTable(temp);
+            })
+
+            function fillTable(data){
+                let toRemove = document.querySelector('tbody');
+                toRemove.innerHTML = ''
+                data.forEach(i => {
+                    let svg = `<div class="checkbox ${i.active==true?'active':''}" onclick="toggleClick(this);updateActive(this);"><div class="check-focus"><svg viewBox="0 0 14 14" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div>`;
+                    document.querySelector('tbody').innerHTML += `<tr class='${i.subject}'>
+                        <td class='sub'>${svg}</td>
+                        <td class='sub' style='cursor: pointer;' onclick='openEmbibe(this)'>${i.topic}</td>
+                        <td>${i.total}</td>
+                        <td style='background:rgba(46, 68, 58, ${(i.solved/(i.total==0?1:i.total))})'>${Math.floor((i.solved/(i.total==0?1:i.total))*100)}</td>
+                        <td>${(i.time/(i.total==0?1:i.total)).toFixed(1)}</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.co1/i.e_total)});'>${(i.co1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.co2/i.e_total)});'>${(i.co2*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.dt1/i.e_total)});'>${(i.dt1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca1/i.e_total)});'>${(i.ca1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca2/i.e_total)});'>${(i.ca2*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca3/i.e_total)});'>${(i.ca3*100/i.e_total).toFixed(0)}%</td>
+                    </tr>`
+                });
+            }
+
+            function openEmbibe(i){
+                let id = Math.floor(Math.random() * 10000000).toString();
+                if(i.parentElement.className.includes('open')){
+                    i.parentElement.nextElementSibling.outerHTML = '';
+                    return i.parentElement.classList.remove('open')
+                }else{
+                    i.parentElement.className += ` open`
+                }
+
+                fetch(`http://127.0.0.1:1800/fetch/graph?subject=${i.parentElement.classList[0]}&topic=${i.innerHTML}`)
+                .then(r => r.json())
+                .then(d => {
+                    i.parentElement.outerHTML += `<tr><td colspan=11><div style='height: 260px !important;width:100% !important;'><canvas id='${id}'></canvas></div></td></tr>`;
+                    var ctx = document.getElementById(id).getContext("2d");
+                    let scores = Object.values(d).map(i => +((i[2].reduce((a,b)=>a+b,0)/i[0].reduce((a,b)=>a+b,0)).toFixed(1)));
+                    let max = Math.max.apply(0,scores);
+                    new Chart(ctx, {
+                        plugins: [ChartDataLabels],
+                        type: 'line',
+                        data: {
+                            labels: Object.keys(d),
+                            datasets: [{
+                                label: 'Accuracy (%)',
+                                data: Object.values(d).map(i => {return ((100*i[1].reduce((a,b)=>a+b,0))/(i[0].reduce((a,b)=>a+b,0))).toFixed(1) }),
+                                borderColor: "rgba(244, 91, 105, 1)",
+                                backgroundColor:"rgba(244, 91, 105, 0)",
+                                fill:true,
+                                pointStyle: 'circle',
+                                pointRadius: 7,
+                                pointHoverRadius:10,
+                                pointBorderColor: "rgb(47, 52, 55)",
+                                pointBackgroundColor: "rgba(244, 91, 105, 1)",
+                                hoverPointBackgroundColor:'rgba(244, 91, 105, 1)',
+                                cubicInterpolationMode: 'monotone',
+                                tension:0.4,
+                                datalabels:{
+                                    align: 'center',
+                                    anchor: 'center',
+                                    color: 'rgb(47, 52, 55)',
+                                    font: {
+                                        weight: 'bold',
+                                        size: 24
+                                    },
+                                    formatter: (value, context) => {
+                                        return ''
+                                    }
+                                }
+                            },{
+                                label: ' Relative Time',
+                                data: scores.map(i => { return (100*i/max).toFixed(1) }),
+                                borderColor: "rgba(130, 209, 115, 1)",
+                                backgroundColor:"rgba(130, 209, 115, 0.78)",
+                                hoverBackgroundColor:"rgba(130, 209, 115, 1)",
+                                type:'bar',
+                                datalabels:{
+                                    align: 'center',
+                                    anchor: 'center',
+                                    color: 'rgb(47, 52, 55)',
+                                    font: {
+                                        weight: 'bold',
+                                        size: 24
+                                    },
+                                    formatter: (value, context) => {
+                                        return scores[context.dataIndex] + ` mins`;
+                                    }
+                                }
+                            }]
+                        },
+                        options: {
+                            plugins:{
+                                legend:{
+                                    display:false,
+                                },
+                            },
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid:{
+                                        color: "rgba(225, 255, 255, 0.07)",
+                                    }
+                                }
+                            },
+                            elements:{
+                                point:{
+                                    borderWidth:3,
+                                    hoverBorderWidth:4,
+                                }
+                            }
+                        }
+                    });
+                })
+            }
+
+            fetch('http://127.0.0.1:1800/fetch/spreadsheet')
+            .then(r => r.json())
+            .then(data => {
+                Object.keys(data).forEach(f => {
+                    Object.keys(data[f]).forEach(x => {
+                        data[f][x]['subject'] = f;
+                        i = data[f][x];
+                        data[f][x]['e_total'] = i.co1 + i.co2 + i.ca1 + i.ca2 + i.ca3 + i.dt1;
+                        i = data[f][x];
+                        data[f][x]['solved'] = i.total - i.e_total;
+                        if(i.e_total == 0){ i.e_total = 1 }
+                        data[f][x]['topic'] = x;
+                        spreadsheet.push(data[f][x]);
+                    });
+                })
+                spreadsheet.forEach(i => {
+                    let svg = `<div class="checkbox ${i.active==true?'active':''}" onclick="toggleClick(this);updateActive(this);"><div class="check-focus"><svg viewBox="0 0 14 14" class="check"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div></div>`;
+                    document.querySelector('tbody').innerHTML += `<tr class='${i.subject}'>
+                        <td class='sub'>${svg}</td>
+                        <td class='sub' style='cursor: pointer;' onclick='openEmbibe(this)'>${i.topic}</td>
+                        <td>${i.total}</td>
+                        <td style='background:rgba(46, 68, 58, ${(i.solved/(i.total==0?1:i.total))})'>${Math.floor((i.solved/(i.total==0?1:i.total))*100)}</td>
+                        <td>${(i.time/(i.total==0?1:i.total)).toFixed(1)}</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.co1/i.e_total)});'>${(i.co1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.co2/i.e_total)});'>${(i.co2*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.dt1/i.e_total)});'>${(i.dt1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca1/i.e_total)});'>${(i.ca1*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca2/i.e_total)});'>${(i.ca2*100/i.e_total).toFixed(0)}%</td>
+                        <td style='background-color: rgba(94, 52, 54, ${(i.ca3/i.e_total)});'>${(i.ca3*100/i.e_total).toFixed(0)}%</td>
+                    </tr>`
+                });
+            })
+        </script>
+        <script src="./script.js"></script>
+    </body>
+    </html>

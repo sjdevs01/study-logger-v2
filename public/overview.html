@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/133a7fcf38.js" crossorigin="anonymous"></script>
+    <title>Type</title>
+    <style>
+        .grid_thing{
+            border-radius: 5px;
+            margin-right:20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color:rgba(255,255,255,0.9);
+            padding:12px;
+            width:max-content;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .red{
+            background: #A63D40 !important;
+        }
+
+        .yellow{
+            background: #DB9D47 !important;
+        }
+
+        .green{
+            background: #399E5A !important;
+        }
+
+        .suggestions{
+            display: flex;
+            flex-wrap: wrap;
+            width: 65vw;
+            margin-top: -10px;
+        }
+
+        h2{
+            font-size: 32px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .top{
+            position: absolute;
+            top: -37.7px;
+            font-weight: 300;
+            font-size: 14px;
+            background-color: rgb(27, 27, 27);
+            border-radius: 3px;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            left: 0; 
+            right: 0; 
+            margin-left: auto; 
+            margin-right: auto; 
+            width: max-content;
+            padding: 5px 8px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .top:after {
+            content:'';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            margin-top: 0px;
+            width: 0;
+            height: 0;
+            border-top: solid 6px rgb(27, 27, 27);
+            border-left: solid 6px transparent;
+            border-right: solid 6px transparent;
+        }
+
+        .faded{
+            animation: fadein 0.2s;
+            opacity: 1;
+        }
+
+        @keyframes fadein {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-1">
+            <div class="s1-initial">S</div>
+            <div class="s1-name">Shivansh</div>
+            <div class="s1-icon"><i class="fa fa-angle-down"></i></div>
+        </div>
+        <div class="sidebar-2">
+            <div class="s2-item overview">
+                <div class="s2-icon"><i class="far fa-star"></i></div>
+                <div class="s2-link">Overview</div>
+            </div>
+            <div class="s2-item log">
+                <div class="s2-icon"><i class="fas fa-tasks"></i></div>
+                <div class="s2-link">Log Work</div>
+            </div>
+            <div class="s2-item spreadsheet">
+                <div class="s2-icon"><i class="fas fa-table"></i></div>
+                <div class="s2-link">Spreadsheet</div>
+            </div>
+            <div class="s2-item preferences">
+                <div class="s2-icon"><i class="fas fa-cogs"></i></div>
+                <div class="s2-link">Preferences</div>
+            </div>
+        </div>  
+    </div>
+    <div class="main">
+        <div class="heading">
+            <div class="icon"><i class="fa fa-star"></i></div>
+            <h1>Overview</h1>
+        </div>
+        <style>
+            .data > div{
+                margin: 0 17px 0 0px;
+                padding: 17px;
+                border-radius: 8px;
+                min-width: 170px;
+                padding-bottom: 15px;
+            }
+            .data p{
+                font-size: 16px;
+                margin-top: 2px;
+                margin-bottom: 3px;
+                color: rgb(55, 60, 63);
+            }
+            .data span{
+                font-size: 18px;
+                font-weight: 900;
+                color: rgb(47, 52, 55);
+            }
+            .data > div:nth-child(1){
+                background: #7392b7;
+            }
+            .data > div:nth-child(2){
+                background: #82d173;
+            }
+            .data > div:nth-child(3){
+                background: #F45B69;
+            }
+
+            .data > div > div {
+                font-size: 18px;
+                font-weight: 700;
+                opacity: 0.9;
+                color: rgb(27, 27, 27);
+            }
+
+            .data > div h3{
+                margin-top: -1px !important;
+                margin-bottom: 6px;
+                font-size: 32px;
+            }
+        </style>
+        <div class="data" style="display: flex;">
+            <div class="time">
+                <div>Total Time</div>
+                <h3></h3>
+
+            </div>
+            <div class="total">
+                <div>Attempted</div>
+                <h3></h3>
+            </div>
+            <div class="accuracy">
+                <div>Accuracy</div>
+                <div></div>
+                <h3></h3>
+            </div>
+        </div>
+        <h2>Revise</h2>
+        <div class="div">
+            
+        </div>
+        <div class="suggestions grid"></div>
+    </div>
+    <script src="./script.js"></script>
+    <script>
+        // Graph of Average Time Taken in subjects
+        // Graph of Average Accuracy in subjects
+
+
+        // Total Questions Solved
+        // Total Time Spent Solving
+        // Strongest Topics
+        // Weakest Topics
+
+
+        function initiate(){
+            fetch('http://127.0.0.1:1800/fetch/overview')
+            .then(r => r.json())
+            .then(d => {
+                let data = d.graphing;
+                let total = {time:0,total:0,solved:0}
+                Object.keys(data).forEach(i => {
+                    console.log(data[i])
+                    document.querySelector('.time').innerHTML += `<p><span>${Math.floor(data[i].time/60)||0}h ${data[i].time%60||0}m</span> ${i}</p>`
+                    document.querySelector('.accuracy').innerHTML += `<p><span>${(100*data[i].solved/data[i].total||0).toFixed(1)}%</span> ${i}</p>`
+                    document.querySelector('.total').innerHTML += `<p><span>${data[i].total||0}</span> ${i}</p>`
+
+                    total.time += data[i].time||0;
+                    total.solved += data[i].solved||0;
+                    total.total += data[i].total||0;
+                })
+                console.log(total)
+                document.querySelector('.time h3').innerHTML = `${Math.floor(total.time/60)}h ${total.time%60}m`;
+                document.querySelector('.accuracy h3').innerHTML = (100*total.solved/total.total||0).toFixed(0) + ' of 100'; 
+                document.querySelector('.total h3').innerHTML = total.total + ' Qs';
+                Object.keys(d.topics).forEach(i => {
+                    console.log(i)
+                    d.topics[i].forEach((l,x) =>  document.querySelector('.suggestions').innerHTML += `<div class='grid_thing ${l[3]}'><div class='top'>${Math.ceil(l[2])} Days, ${l[1]} Times</div>${l[0]}</div>`)
+                })
+            })
+        }
+
+        setTimeout(() => {
+            Array.from(document.querySelectorAll('.grid_thing')).forEach(i => {
+                i.addEventListener('click', () => {
+                    window.open(`https://www.embibe.com/search/Test?q=${i.childNodes[1].textContent}`)
+                })
+
+                i.onmouseover = () => {
+                    i.querySelector('.top').classList.add('faded');
+                }
+
+                i.onmouseout = () => {
+                    i.querySelector('.top').classList.remove('faded');
+                }
+            })
+        }, 1000)
+        initiate()
+    </script>
+</body>
+</html>
