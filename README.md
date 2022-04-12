@@ -54,7 +54,7 @@ To run the app again on startup you will have to go to the directory where the a
 ```
 pm2 start index.js
 ```
-again. To not have to do this, you will have to setup a startup script using pm2, this is simple but doesn't work sometimes. If it doesn't work I recommend you to not try much since it won't work anyways. The simplest way is to paste this in your command line interface.
+again. To not have to do this you can either use the run.bat file in the folder, and make a shortcut for it on your desktop or you will have to setup a startup script using pm2, this is simple but doesn't work sometimes. If it doesn't work I recommend you to not try much since it won't work anyways. The simplest way is to paste this in your command line interface.
 
 ```
 npm install pm2 -g
