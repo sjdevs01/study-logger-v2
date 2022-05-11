@@ -7,7 +7,7 @@ This version is much less complicated and is just a clone of the previous one, w
 ![image](https://user-images.githubusercontent.com/71702390/167787702-1ae564ef-f90b-4be2-839f-4d14fcc811fa.png)
 Hovering over revise buttons shows "No. of days since last practiced, No. of times you have practiced" and clicking leads to embibe.
 
-![image](https://user-images.githubusercontent.com/71702390/162895941-4b4fecc4-cdd7-471e-aacb-182757d7e7c1.png)
+![image](https://user-images.githubusercontent.com/71702390/167787853-06ae3e2e-5614-4c25-b5cd-34b85f28c486.png)
 Automatically groups the inputs if there are enough of them, and there is this aesthetic thing here.
 
 # Getting Started
