@@ -4,8 +4,8 @@ This is a study logger made by me, which is just a pretty way to plan and see yo
 
 This version is much less complicated and is just a clone of the previous one, with a more aesthetically pleasing, customizeable way to deal with things in the `Spreadsheet` menu. A simple guide on how to get started can be found below. Here I show you what it looks like. 
 
-![image](https://user-images.githubusercontent.com/71702390/162894906-d00966f8-a349-4f05-8437-681749b99397.png)
-The 0 Days, 1 Times shows days since last done, and number of times you have practiced
+![image](https://user-images.githubusercontent.com/71702390/167784295-7c468788-2e3b-45f6-b972-29d9f3ed966a.png)
+Hovering over revise buttons shows "No. of days since last practiced, No. of times you have practiced" and clicking leads to embibe.
 
 ![image](https://user-images.githubusercontent.com/71702390/162895130-f8d50332-beb8-479a-9da2-4471de00ec7b.png)
 
