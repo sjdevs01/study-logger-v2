@@ -1,8 +1,7 @@
 # Study Logger v2
 
-This is a study logger made by me, which is just a pretty way to plan and see your progress. This was a recompilation of my skills, and how finished I can make a app, along with the UI in under 24 hours. However the previous version used too much maths, which was mostly usesless like telling you which subjects you found difficult and all, which can easily be thought of after looking at your accuracy, frequency and average time, but it used a lot of assumptions, using average times you input to tell it to you etc.
-
-This version is much less complicated and is just a clone of the previous one, with a more aesthetically pleasing, customizeable way to deal with things in the `Spreadsheet` menu. A simple guide on how to get started can be found below. Here I show you what it looks like. 
+Upgraded version of a 24 Hour Challenge, which is ironically less complicated. 
+Screenshots:
 
 ![image](https://user-images.githubusercontent.com/71702390/167787702-1ae564ef-f90b-4be2-839f-4d14fcc811fa.png)
 Hovering over revise buttons shows "No. of days since last practiced, No. of times you have practiced" and clicking leads to embibe.
@@ -26,8 +25,8 @@ After downloading the code if you already have `nodejs` installed then fine. Els
 
 After this you can open the app on the site `http://127.0.0.1:1700` and whenever you start your machine, the app will be on.
 
-## If you want your name to appear in that corner and not User.
+## Optional: Display Your Name
 Rename the files in `data` folder to your name in lowercase (keep the `_d` in the file which has it)
 Then open `index.js` and on line 13, you will see `let userList = ['user']`, replace user with your name in lower case
 
-Then do `pm2 restart` and your name will appear in the little corner over there.
+Then do `pm2 restart` then `pm2 save` and your name will appear in the little corner over there.
