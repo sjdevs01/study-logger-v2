@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
     res.redirect('/overview')
 })
 
-let userList = ['your_name_here'];
+let userList = ['user'];
 
 app.use('/', (req, res, next) => {
     if(req.originalUrl == '/fetch/users'){
