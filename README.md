@@ -30,16 +30,7 @@ or if you have git installed, open a CLI/CMD and use:
 git clone https://github.com/sjdevs01/study-logger-v2
 ```
 
-After downloading the code if you already have `nodejs` installed then fine. Else download and install nodejs by following some tutorial (its 2 minutes of work) and then do:
-
-```
-npm i express cookie-parser
-npm install pm2 -g
-npm install pm2-windows-startup -g
-pm2-startup install
-pm2 start index.js --name Study
-pm2 save
-```
+After downloading the code if you already have `nodejs` installed then fine. Else download and install nodejs by following some tutorial (its 2 minutes of work) and then navigate to the folder containing the files, and run the `init.bat` file. Alternatively, you can open the file and run the commands in that file yourself.
 
 After this you can open the app on the site `http://127.0.0.1:1700` and whenever you start your machine, the app will be on.
 
