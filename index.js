@@ -209,6 +209,6 @@ app.get('/log', (req, res) => {
     res.sendFile(__dirname + '/public/log.html')
 })
 
-app.listen(1800, 'localhost', () => {
+app.listen(1700, 'localhost', () => {
     console.log('listening')
 })
