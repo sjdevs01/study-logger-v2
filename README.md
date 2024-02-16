@@ -1,13 +1,11 @@
 # Study Logger v2
 
-Upgraded version of a 24 Hour Challenge, which is ironically less complicated. 
-Screenshots:
+Upgraded version of a 24 Hour Challenge which I intended to take on to revise my skills as it had been a long time since I had worked on any web-based projects. 
 
-![image](https://user-images.githubusercontent.com/71702390/167787702-1ae564ef-f90b-4be2-839f-4d14fcc811fa.png)
-Hovering over revise buttons shows "No. of days since last practiced, No. of times you have practiced" and clicking leads to embibe.
+Too lazy to make a documentation of all the features (this is the 2024 me), but the given video (from 2022) which is 2 minutes long, should suffice to show most of them, although it doesn't show all features. Adding gdrive link since its 20MB, github only supports 10MB. 
 
-![image](https://user-images.githubusercontent.com/71702390/167787853-06ae3e2e-5614-4c25-b5cd-34b85f28c486.png)
-Automatically groups the inputs to months if there are enough of them, and there is this aesthetic thing here.
+https://drive.google.com/file/d/1CSFo2xeF7BHouRClaMFJLSIjqLrbz-Ck/view?usp=sharing
+
 
 # Getting Started
 
@@ -22,4 +20,4 @@ Then install nodejs. After that navigate to the folder containing these files, r
 ## Optional: Display Your Name
 Rename the files in `data` folder to your name in lowercase (keep the `_d` in the file which has it). Then open `index.js` and on line 13, you will see `let userList = ['user']`, replace user with your name in lower case
 
-Then do `pm2 restart` then `pm2 save` and your name will appear in the little corner over there.
+Then do `pm2 restart` then `pm2 save` and your name will appear in the little corner over there. (This is to be done in command prompt, 2022 me forgot to write this haha)
